@@ -1,0 +1,27 @@
+{
+  "name": "backend-mongodb",
+  "version": "1.0.0",
+  "description": "Simple CRUD API with Node.js, Express, MongoDB, and Prisma",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "prisma:generate": "prisma generate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.12.2",
+    "prisma": "^6.5.0"
+  },
+  "devDependencies": {
+    "@prisma/client": "^6.5.0",
+    "nodemon": "^3.1.9"
+  }
+}
