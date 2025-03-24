@@ -1,9 +1,9 @@
-const prisma = require("../prisma");
+const Task = require("../models/Task");
 
 // Get all tasks
 const getAllTasks = async (req, res) => {
   try {
-    const tasks = await prisma.task.findMany();
+    const tasks = await Task.find({});
     res.status(200).json(tasks);
   } catch (error) {
     res
@@ -16,9 +16,7 @@ const getAllTasks = async (req, res) => {
 const getTaskById = async (req, res) => {
   try {
     const { id } = req.params;
-    const task = await prisma.task.findUnique({
-      where: { id },
-    });
+    const task = await Task.findById(id);
 
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
@@ -41,11 +39,9 @@ const createTask = async (req, res) => {
       return res.status(400).json({ message: "Title is required" });
     }
 
-    const newTask = await prisma.task.create({
-      data: {
-        title,
-        description,
-      },
+    const newTask = await Task.create({
+      title,
+      description,
     });
 
     res.status(201).json(newTask);
@@ -63,23 +59,22 @@ const updateTask = async (req, res) => {
     const { title, description, completed } = req.body;
 
     // Check if task exists
-    const existingTask = await prisma.task.findUnique({
-      where: { id },
-    });
+    const existingTask = await Task.findById(id);
 
     if (!existingTask) {
       return res.status(404).json({ message: "Task not found" });
     }
 
-    const updatedTask = await prisma.task.update({
-      where: { id },
-      data: {
+    const updatedTask = await Task.findByIdAndUpdate(
+      id,
+      {
         title: title !== undefined ? title : existingTask.title,
         description:
           description !== undefined ? description : existingTask.description,
         completed: completed !== undefined ? completed : existingTask.completed,
       },
-    });
+      { new: true, runValidators: true }
+    );
 
     res.status(200).json(updatedTask);
   } catch (error) {
@@ -95,17 +90,13 @@ const deleteTask = async (req, res) => {
     const { id } = req.params;
 
     // Check if task exists
-    const existingTask = await prisma.task.findUnique({
-      where: { id },
-    });
+    const existingTask = await Task.findById(id);
 
     if (!existingTask) {
       return res.status(404).json({ message: "Task not found" });
     }
 
-    await prisma.task.delete({
-      where: { id },
-    });
+    await Task.findByIdAndDelete(id);
 
     res.status(200).json({ message: "Task deleted successfully" });
   } catch (error) {

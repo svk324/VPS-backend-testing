@@ -2,17 +2,14 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const os = require("os"); // For getting network interfaces
-const { PrismaClient } = require("@prisma/client"); // Import Prisma
-const taskRoutes = require("./routes/taskRoutes");
+const mongoose = require("mongoose");
+const taskRoutes = require("./src/routes/taskRoutes");
 
 // Load environment variables
 dotenv.config();
 
-// Initialize Prisma
-const prisma = new PrismaClient();
-
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 // Middleware
 app.use(cors());
@@ -49,12 +46,13 @@ const getNetworkInfo = () => {
 // Test database connection and start server
 async function startServer() {
   try {
-    // Test database connection
-    await prisma.$connect();
+    // Connect to MongoDB
+    await mongoose.connect(process.env.DATABASE_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log("✅ Database connection established successfully");
-    console.log(
-      `📊 Connected to database: ${process.env.DATABASE_URL.split("/").pop()}`
-    );
+    console.log("📊 Connected to database: task-manager");
 
     // Start the server
     app.listen(PORT, () => {
@@ -80,9 +78,9 @@ async function startServer() {
     console.error(error);
     process.exit(1);
   } finally {
-    // Disconnect Prisma when process is terminated
+    // Disconnect Mongoose when process is terminated
     process.on("SIGINT", async () => {
-      await prisma.$disconnect();
+      await mongoose.connection.close();
       console.log("Database connection closed");
       process.exit(0);
     });

@@ -1,6 +1,6 @@
 # Task Manager API
 
-A simple CRUD backend using Node.js, Express, MongoDB, and Prisma ORM with enhanced terminal output.
+A simple CRUD backend using Node.js, Express, MongoDB, and Mongoose with enhanced terminal output.
 
 ## Setup
 
@@ -9,11 +9,7 @@ A simple CRUD backend using Node.js, Express, MongoDB, and Prisma ORM with enhan
    ```bash
    npm install
    ```
-3. Generate Prisma client:
-   ```bash
-   npm run prisma:generate
-   ```
-4. Start the development server:
+3. Start the development server:
    ```bash
    npm run dev
    ```
@@ -21,7 +17,7 @@ A simple CRUD backend using Node.js, Express, MongoDB, and Prisma ORM with enhan
 ## Features
 
 - RESTful API for task management
-- MongoDB database with Prisma ORM
+- MongoDB database with Mongoose ODM
 - Enhanced terminal output with:
   - Database connection status
   - Server accessibility information
@@ -65,7 +61,7 @@ curl -X GET http://localhost:3000/api/tasks/[task-id]
 ```bash
 curl -X POST http://localhost:3000/api/tasks \
   -H "Content-Type: application/json" \
-  -d '{"title": "Learn Node.js", "description": "Study Express and Prisma"}'
+  -d '{"title": "Learn Node.js", "description": "Study Express and Mongoose"}'
 ```
 
 ### Update a task
@@ -73,7 +69,7 @@ curl -X POST http://localhost:3000/api/tasks \
 ```bash
 curl -X PUT http://localhost:3000/api/tasks/[task-id] \
   -H "Content-Type: application/json" \
-  -d '{"title": "Learn Node.js", "description": "Study Express and Prisma", "completed": true}'
+  -d '{"title": "Learn Node.js", "description": "Study Express and Mongoose", "completed": true}'
 ```
 
 ### Delete a task
