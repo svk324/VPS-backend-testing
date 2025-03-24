@@ -82,6 +82,9 @@ curl -X PUT http://localhost:3000/api/tasks/[task-id] \
 curl -X DELETE http://localhost:3000/api/tasks/[task-id]
 ```
 
-```
-
-```
+Your API endpoints remain the same and fully functional:
+GET all tasks: http://localhost:3000/api/tasks
+GET a task by ID: http://localhost:3000/api/tasks/:id
+POST create a task: http://localhost:3000/api/tasks
+PUT update a task: http://localhost:3000/api/tasks/:id
+DELETE a task: http://localhost:3000/api/tasks/:id
